@@ -1,0 +1,17 @@
+{
+  "name": "srothe/wpforms-firebase-integration",
+  "description": "Sends all Form Posts from WPForms to Firebase",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Sebastian Rothe",
+      "email": "sebastian@lifeinprogress.de"
+    }
+  ],
+  "require": {
+    "kreait/firebase-php": "^4.12"
+  },
+  "config": {
+    "vendor-dir": "wpforms-firebase-integration/vendor"
+  }
+}
