@@ -44,3 +44,6 @@ wpforms-firebase-integration/config/*.json
 # composer
 /vendor/
 wpforms-firebase-integration/vendor/
+
+# build artifacts
+/build/*
