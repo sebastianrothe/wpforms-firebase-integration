@@ -170,7 +170,7 @@ class WpForms_Firebase_Integration {
 
 		$plugin_public = new WpForms_Firebase_Integration_Public( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'wpforms_process_complete_1839', $plugin_public, 'send_registration_to_firebase', 10, 4 );	
+		$this->loader->add_action( 'wpforms_process_complete_1839', $plugin_public, 'send_registration_to_firebase_1839', 10, 4 );	
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );

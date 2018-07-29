@@ -123,12 +123,11 @@ class WpForms_Firebase_Integration_Public {
 	 * @param array $form_data - Form settings/data.
 	 * @param int $entry_id - Entry ID. Will return 0 if entry storage is disabled or using WPForms Lite.
 	 */
-	public function send_registration_to_firebase($fields, $entry, $form_data, $entry_id) {
+	public function send_registration_to_firebase_1839($fields, $entry, $form_data, $entry_id) {
 		if (!$fields || count($fields) < 5) {
 			return;
 		}
 
-		$databaseError = null;
 		[10 => $date, 9 => $name, 11 => $people, 13 => $email, 12 => $phone, 14 => $coupon] = $fields;
 		$values = [
 			'name' => $name['value'],
@@ -140,9 +139,45 @@ class WpForms_Firebase_Integration_Public {
 			'coupon' => $coupon['value']
 		];
 
+		$this->send_registration_to_firebase($values, 'berlin/gruseltour');
+	}
+
+	/**
+	 * Integrate WPForms with Firebase
+	 * 
+	 * @param array $fields - Sanitized entry field values/properties.
+	 * @param array $entry - Original $_POST global.
+	 * @param array $form_data - Form settings/data.
+	 * @param int $entry_id - Entry ID. Will return 0 if entry storage is disabled or using WPForms Lite.
+	 */
+	public function send_registration_to_firebase_contactform($fields, $entry, $form_data, $entry_id) {
+		if (!$fields || count($fields) < 5) {
+			return;
+		}
+
+		[10 => $date, 9 => $name, 11 => $people, 13 => $email, 12 => $phone, 14 => $coupon] = $fields;
+		$values = [
+			'name' => $name['value'],
+			'email' => $email['value'],
+			'phone' => $phone['value'],
+			'date' => $date['value'],
+			'people' => $people['value'],
+			'registeredAt' => date('Y-m-d H:i:s'),
+			'coupon' => $coupon['value']
+		];
+
+		$this->send_registration_to_firebase($values, 'leipzig/gruseltour');
+	}
+
+	public function send_registration_to_firebase($values, $path) {
+		if (!$fields || !$path) {
+			return;
+		}
+
+		$databaseError = null;
 		try {
 			$db = $this->firebase->getDatabase();
-			$path = 'berlin/gruseltour/registrations';
+			$path = $path.'/registrations';
 			$newRegistration = $db->getReference($path)
 				->push($values);
 		} catch (Exception $e) {
