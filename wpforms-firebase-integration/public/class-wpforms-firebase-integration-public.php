@@ -143,19 +143,25 @@ class WpForms_Firebase_Integration_Public {
 	}
 
 	/**
-	 * Integrate WPForms with Firebase
+	 * Integrate Jetpack's ContactForm with Firebase
 	 * 
-	 * @param array $fields - Sanitized entry field values/properties.
-	 * @param array $entry - Original $_POST global.
-	 * @param array $form_data - Form settings/data.
-	 * @param int $entry_id - Entry ID. Will return 0 if entry storage is disabled or using WPForms Lite.
+	 * @param integer $post_id - Post contact form lives on.
+	 * @param array $all_values - Contact form fields.
+	 * @param array $extra_values - Contact form fields not included in $all_values.
 	 */
-	public function send_registration_to_firebase_contactform($fields, $entry, $form_data, $entry_id) {
-		if (!$fields || count($fields) < 5) {
+	public function send_registration_to_firebase_contactform($post_id, $all_values, $extra_values ) {
+		if ($post_id !== 9312) {
 			return;
 		}
 
-		[10 => $date, 9 => $name, 11 => $people, 13 => $email, 12 => $phone, 14 => $coupon] = $fields;
+		if (!$all_values || count($all_values) < 5) {
+			return;
+		}
+
+		print_r('<pre>'.$all_values.'</pre>');
+		return;
+
+		[10 => $date, 9 => $name, 11 => $people, 13 => $email, 12 => $phone, 14 => $coupon] = $all_values;
 		$values = [
 			'name' => $name['value'],
 			'email' => $email['value'],
