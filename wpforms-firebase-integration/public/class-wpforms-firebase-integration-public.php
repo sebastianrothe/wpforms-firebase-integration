@@ -150,6 +150,9 @@ class WpForms_Firebase_Integration_Public {
 	 * @param array $extra_values - Contact form fields not included in $all_values.
 	 */
 	public function send_registration_to_firebase_contactform($post_id, $all_values, $extra_values ) {
+		print_r('entered send_registration_to_firebase_contactform');
+		return;
+		print_r('<p>'.$post_id.'</p>');
 		if ($post_id !== 9312) {
 			return;
 		}
@@ -175,7 +178,7 @@ class WpForms_Firebase_Integration_Public {
 		$this->send_registration_to_firebase($values, 'leipzig/gruseltour');
 	}
 
-	public function send_registration_to_firebase($values, $path) {
+	private function send_registration_to_firebase($values, $path) {
 		if (!$fields || !$path) {
 			return;
 		}
