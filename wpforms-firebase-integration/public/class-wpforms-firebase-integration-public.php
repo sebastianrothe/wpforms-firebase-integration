@@ -157,8 +157,10 @@ class WpForms_Firebase_Integration_Public {
 			$contactFormId = $_POST['contact-form-id'];
 		}
 
-		$knownFormIds = ['9312', $DEFAULT_FORM_ID];
+		$knownFormIds = ['18', '3917', '9312', $DEFAULT_FORM_ID];
 		$formIdMapper = [
+			'18' => 'gruseltour',
+			'3917' => 'friedhofstour',
 			'9312' => 'test',
 			$DEFAULT_FORM_ID => $DEFAULT_FORM_ID
 		];
