@@ -128,7 +128,7 @@ class WpForms_Firebase_Integration_Public {
 			return;
 		}
 
-		[10 => $date, 9 => $name, 11 => $people, 13 => $email, 12 => $phone, 14 => $coupon] = $fields;
+		[15 => $date, 9 => $name, 11 => $people, 13 => $email, 12 => $phone, 14 => $coupon] = $fields;
 		$values = [
 			'name' => $name['value'],
 			'email' => $email['value'],
@@ -149,37 +149,40 @@ class WpForms_Firebase_Integration_Public {
 	 * @param array $all_values - Contact form fields.
 	 * @param array $extra_values - Contact form fields not included in $all_values.
 	 */
-	public function send_registration_to_firebase_contactform($post_id, $all_values, $extra_values ) {
-		print_r('entered send_registration_to_firebase_contactform');
-		return;
-		print_r('<p>'.$post_id.'</p>');
-		if ($post_id !== 9312) {
-			return;
+	public function send_registration_to_firebase_contactform($post_id, $all_values, $extra_values) {
+		static $DEFAULT_FORM_ID = 'unknown';
+
+		$contactFormId = $DEFAULT_FORM_ID;
+		if (isset($_POST['contact-form-id'])) {
+			$contactFormId = $_POST['contact-form-id'];
 		}
 
-		if (!$all_values || count($all_values) < 5) {
-			return;
-		}
-
-		print_r('<pre>'.$all_values.'</pre>');
-		return;
-
-		[10 => $date, 9 => $name, 11 => $people, 13 => $email, 12 => $phone, 14 => $coupon] = $all_values;
-		$values = [
-			'name' => $name['value'],
-			'email' => $email['value'],
-			'phone' => $phone['value'],
-			'date' => $date['value'],
-			'people' => $people['value'],
-			'registeredAt' => date('Y-m-d H:i:s'),
-			'coupon' => $coupon['value']
+		$knownFormIds = ['9312', $DEFAULT_FORM_ID];
+		$formIdMapper = [
+			'9312' => 'test',
+			$DEFAULT_FORM_ID => $DEFAULT_FORM_ID
 		];
 
-		$this->send_registration_to_firebase($values, 'leipzig/gruseltour');
+		if (!in_array($contactFormId, $knownFormIds)) {
+			return;
+		}
+
+		if (!$all_values || count($all_values) < 2) {
+			return;
+		}
+		
+		[$name, $email] = array_values($all_values);
+
+		$values = [
+			'name' => $name,
+			'email' => $email
+		];
+		$mappedForm = $formIdMapper[$contactFormId];
+		$this->send_registration_to_firebase($values, 'leipzig/'.$mappedForm);
 	}
 
 	private function send_registration_to_firebase($values, $path) {
-		if (!$fields || !$path) {
+		if (!$values || !$path) {
 			return;
 		}
 
