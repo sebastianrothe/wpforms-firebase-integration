@@ -47,6 +47,8 @@ class WpForms_Firebase_Integration_Public {
 
 	private static $CONFIG_FILE = 'firebase-account.json';
 
+	private static $DEFAULT_FORM_ID = 'unknown';
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -150,22 +152,12 @@ class WpForms_Firebase_Integration_Public {
 	 * @param array $extra_values - Contact form fields not included in $all_values.
 	 */
 	public function send_registration_to_firebase_contactform($post_id, $all_values, $extra_values) {
-		static $DEFAULT_FORM_ID = 'unknown';
-
-		$contactFormId = $DEFAULT_FORM_ID;
+		$contactFormId = self::$DEFAULT_FORM_ID;
 		if (isset($_POST['contact-form-id'])) {
 			$contactFormId = $_POST['contact-form-id'];
 		}
 
-		$knownFormIds = ['18', '3917', '9312', $DEFAULT_FORM_ID];
-		$formIdMapper = [
-			'18' => 'gruseltour',
-			'3917' => 'friedhofstour',
-			'9312' => 'test',
-			$DEFAULT_FORM_ID => $DEFAULT_FORM_ID
-		];
-
-		if (!in_array($contactFormId, $knownFormIds)) {
+		if (!in_array($contactFormId, $this->getKnownForms())) {
 			return;
 		}
 
@@ -173,16 +165,34 @@ class WpForms_Firebase_Integration_Public {
 			return;
 		}
 
-		$mappedForm = $formIdMapper[$contactFormId];
-		if ($mappedForm === 'gruseltour') {
-			$values = $this->extractFormValuesForGruseltour($all_values);
-		} else if ($mappedForm === 'friedhofstour') {
-			$values = $this->extractFormValuesForFriedhofstour($all_values);
-		} else {
-			$values = $all_values;
+		$mappedForm = $this->mapFormIdToName($contactFormId);
+		switch($mappedForm) {
+			case 'gruseltour':
+				$values = $this->extractFormValuesForGruseltour($all_values);
+				break;
+			case 'friedhofstour':
+				$values = $this->extractFormValuesForFriedhofstour($all_values);
+				break;
+			default:
+				$values = $all_values;
 		}
 
 		$this->send_registration_to_firebase($values, 'leipzig/'.$mappedForm);
+	}
+
+	private function getKnownForms() {
+		return ['18', '3917', '9312', self::$DEFAULT_FORM_ID];
+	}
+
+	private function mapFormIdToName($formId) {
+		$formIdMapper = [
+			'18' => 'gruseltour',
+			'3917' => 'friedhofstour',
+			'9312' => 'test',
+			self::$DEFAULT_FORM_ID => self::$DEFAULT_FORM_ID
+		];
+
+		return $formIdMapper[$formId];
 	}
 
 	private function extractFormValuesForGruseltour($values) {
