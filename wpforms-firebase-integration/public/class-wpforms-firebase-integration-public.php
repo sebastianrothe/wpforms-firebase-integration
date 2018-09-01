@@ -169,18 +169,37 @@ class WpForms_Firebase_Integration_Public {
 			return;
 		}
 
-		if (!$all_values || count($all_values) < 2) {
+		if (!$all_values || count($all_values) < 5) {
 			return;
 		}
-		
-		[$name, $email] = array_values($all_values);
 
-		$values = [
-			'name' => $name,
-			'email' => $email
-		];
 		$mappedForm = $formIdMapper[$contactFormId];
+		if ($mappedForm === 'gruseltour') {
+			$values = $this->extractFormValuesForGruseltour($all_values);
+		} else if ($mappedForm === 'friedhofstour') {
+			$values = $this->extractFormValuesForFriedhofstour($all_values);
+		} else {
+			$values = $all_values;
+		}
+
 		$this->send_registration_to_firebase($values, 'leipzig/'.$mappedForm);
+	}
+
+	private function extractFormValuesForGruseltour($values) {
+		[$name, $date, $people, $coupon, $email, $phone] = array_values($values);
+		return [
+			'name' => $name,
+			'email' => $email,
+			'phone' => $phone,
+			'date' => $date,
+			'people' => $people,
+			'registeredAt' => date('Y-m-d H:i:s'),
+			'coupon' => $coupon
+		];
+	}
+
+	private function extractFormValuesForFriedhofstour($values) {
+		return $this->extractFormValuesForGruseltour($values);
 	}
 
 	private function send_registration_to_firebase($values, $path) {
