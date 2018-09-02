@@ -16,7 +16,7 @@
  * Plugin Name:       WPForms Firebase Integration
  * Plugin URI:        https://github.com/sebastianrothe
  * Description:       Everytime a form is submitted with WPForms, the data is also sent to a firebase datastore.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Mysterium Tremendum GbR
  * Author URI:        https://gruseltour-leipzig.de/
  * License:           GPL-2.0+
