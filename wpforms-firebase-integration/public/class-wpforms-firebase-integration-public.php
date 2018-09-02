@@ -130,7 +130,7 @@ class WpForms_Firebase_Integration_Public {
 			return;
 		}
 
-		[15 => $date, 9 => $name, 11 => $people, 13 => $email, 12 => $phone, 14 => $coupon] = $fields;
+		[15 => $date, 9 => $name, 11 => $people, 13 => $email, 12 => $phone, 14 => $coupon, 17 => $newsletter] = $fields;
 		$values = [
 			'name' => $name['value'],
 			'email' => $email['value'],
@@ -138,7 +138,8 @@ class WpForms_Firebase_Integration_Public {
 			'date' => $date['value'],
 			'people' => $people['value'],
 			'registeredAt' => date('Y-m-d H:i:s'),
-			'coupon' => $coupon['value']
+			'coupon' => $coupon['value'],
+			'newsletter' => isset($newsletter) && isset($newsletter['value']),
 		];
 
 		$this->send_registration_to_firebase($values, 'berlin/gruseltour');
