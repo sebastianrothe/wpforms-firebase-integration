@@ -90,7 +90,7 @@ class WpForms_Firebase_Integration_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wpforms-firebase-integration-public.css', array(), $this->version, 'all' );
+		//wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wpforms-firebase-integration-public.css', array(), $this->version, 'all' );
 
 	}
 
@@ -113,7 +113,7 @@ class WpForms_Firebase_Integration_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wpforms-firebase-integration-public.js', array( 'jquery' ), $this->version, false );
+		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wpforms-firebase-integration-public.js', array( 'jquery' ), $this->version, false );
 
 	}
 
@@ -130,7 +130,7 @@ class WpForms_Firebase_Integration_Public {
 			return;
 		}
 
-		[15 => $date, 9 => $name, 11 => $people, 13 => $email, 12 => $phone, 14 => $coupon, 17 => $newsletter] = $fields;
+		[19 => $date, 9 => $name, 11 => $people, 13 => $email, 12 => $phone, 14 => $coupon, 17 => $newsletter] = $fields;
 		$values = [
 			'name' => $name['value'],
 			'email' => $email['value'],
