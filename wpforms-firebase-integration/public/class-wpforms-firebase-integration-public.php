@@ -197,7 +197,7 @@ class WpForms_Firebase_Integration_Public {
 	}
 
 	private function extractFormValuesForGruseltour($values) {
-		[$name, $date, $people, $coupon, $email, $phone] = array_values($values);
+		[$name, $date, $people, $coupon, $email, $phone, $newsletter] = array_values($values);
 		return [
 			'name' => $name,
 			'email' => $email,
@@ -205,7 +205,8 @@ class WpForms_Firebase_Integration_Public {
 			'date' => $date,
 			'people' => $people,
 			'registeredAt' => date('Y-m-d H:i:s'),
-			'coupon' => $coupon
+			'coupon' => $coupon,
+			'newsletter' => isset($newsletter)
 		];
 	}
 
