@@ -139,7 +139,7 @@ class WpForms_Firebase_Integration_Public {
 			'people' => $people['value'],
 			'registeredAt' => date('Y-m-d H:i:s'),
 			'coupon' => $coupon['value'],
-			'newsletter' => isset($newsletter) && checkNewsletterFlag($newsletter['value']),
+			'newsletter' => isset($newsletter) && checkFlag($newsletter['value']),
 		];
 
 		$this->send_registration_to_firebase($values, 'berlin/gruseltour');
@@ -206,7 +206,7 @@ class WpForms_Firebase_Integration_Public {
 			'people' => $people,
 			'registeredAt' => date('Y-m-d H:i:s'),
 			'coupon' => $coupon,
-			'newsletter' => checkNewsletterFlag($newsletter)
+			'newsletter' => checkFlag($newsletter)
 		];
 	}
 
@@ -214,7 +214,7 @@ class WpForms_Firebase_Integration_Public {
 		return $this->extractFormValuesForGruseltour($values);
 	}
 
-	private function checkNewsletterFlag($value) {
+	private function checkFlag($value) {
 		return isset($value) && mb_strlen($value, 'utf8') >= 1;
 	}
 
