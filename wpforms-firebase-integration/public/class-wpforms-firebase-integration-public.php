@@ -139,7 +139,7 @@ class WpForms_Firebase_Integration_Public {
 			'people' => $people['value'],
 			'registeredAt' => date('Y-m-d H:i:s'),
 			'coupon' => $coupon['value'],
-			'newsletter' => isset($newsletter) && checkFlag($newsletter['value']),
+			'marketing' => isset($newsletter) && checkFlag($newsletter['value']),
 		];
 
 		$this->send_registration_to_firebase($values, 'berlin/gruseltour');
@@ -206,7 +206,7 @@ class WpForms_Firebase_Integration_Public {
 			'people' => $people,
 			'registeredAt' => date('Y-m-d H:i:s'),
 			'coupon' => $coupon,
-			'newsletter' => checkFlag($newsletter)
+			'marketing' => checkFlag($newsletter)
 		];
 	}
 
